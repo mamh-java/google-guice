@@ -17,7 +17,6 @@ limitations under the License.
 package com.google.inject;
 
 import static com.google.inject.Asserts.assertContains;
-import static com.google.inject.Asserts.getDeclaringSourcePart;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -42,15 +41,9 @@ public class ParentInjectorTest extends TestCase {
     } catch (CreationException e) {
       assertContains(
           e.getMessage(),
-          "A binding to ",
-          A.class.getName(),
-          " was already configured",
-          " at ",
-          getClass().getName(),
-          getDeclaringSourcePart(getClass()),
-          " at ",
-          getClass().getName(),
-          getDeclaringSourcePart(getClass()));
+          "ParentInjectorTest$A was bound multiple times.",
+          "1  : ParentInjectorTest$9.configure",
+          "2  : ParentInjectorTest$9.configure");
     }
   }
 
@@ -63,11 +56,9 @@ public class ParentInjectorTest extends TestCase {
     } catch (ConfigurationException e) {
       assertContains(
           e.getMessage(),
-          "Unable to create binding for " + A.class.getName(),
-          "It was already configured on one or more child injectors or private modules",
-          "bound at " + bindsA.getClass().getName() + ".configure(",
-          "If it was in a PrivateModule, did you forget to expose the binding?",
-          "while locating " + A.class.getName());
+          "Unable to create binding for ParentInjectorTest$A because it was already configured on"
+              + " one or more child injectors or private modules.",
+          "ParentInjectorTest$9.configure");
     }
   }
 
@@ -259,9 +250,9 @@ public class ParentInjectorTest extends TestCase {
     } catch (ConfigurationException expected) {
       assertContains(
           expected.getMessage(),
-          "No scope is bound to com.google.inject.ParentInjectorTest$MyScope.",
-          "at " + F.class.getName() + ".class(ParentInjectorTest.java",
-          "  while locating " + F.class.getName());
+          "No scope is bound to ParentInjectorTest$MyScope.",
+          "ParentInjectorTest$F.class",
+          "while locating ParentInjectorTest$F");
     }
 
     assertNotNull(child.getProvider(F.class).get());
@@ -293,9 +284,10 @@ public class ParentInjectorTest extends TestCase {
     } catch (ConfigurationException expected) {
       assertContains(
           expected.getMessage(),
-          "No scope is bound to " + MyScope.class.getName(),
-          "at " + F.class.getName() + ".class(ParentInjectorTest.java:",
-          "  while locating " + G.class.getName());
+          "No scope is bound to ParentInjectorTest$MyScope.",
+          "ParentInjectorTest$F.class",
+          "at ParentInjectorTest$G.class",
+          "while locating ParentInjectorTest$G");
     }
   }
 

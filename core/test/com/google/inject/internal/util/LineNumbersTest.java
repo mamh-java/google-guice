@@ -17,7 +17,6 @@
 package com.google.inject.internal.util;
 
 import static com.google.inject.Asserts.assertContains;
-import static com.google.inject.Asserts.getDeclaringSourcePart;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
@@ -44,10 +43,9 @@ public class LineNumbersTest extends TestCase {
     } catch (CreationException expected) {
       assertContains(
           expected.getMessage(),
-          "1) No implementation for " + B.class.getName() + " was bound.",
-          "for the 1st parameter of " + A.class.getName() + ".<init>(LineNumbersTest.java:",
-          "at " + LineNumbersTest.class.getName(),
-          getDeclaringSourcePart(getClass()));
+          "No implementation for LineNumbersTest$B was bound.",
+          "for 1st parameter b",
+          "at LineNumbersTest$1.configure");
     }
   }
 
@@ -83,10 +81,9 @@ public class LineNumbersTest extends TestCase {
     } catch (CreationException expected) {
       assertContains(
           expected.getMessage(),
-          "1) No implementation for " + B.class.getName() + " was bound.",
-          "for the 1st parameter of " + A.class.getName() + ".<init>(LineNumbersTest.java:",
-          "at " + LineNumbersTest.class.getName(),
-          getDeclaringSourcePart(getClass()));
+          "No implementation for LineNumbersTest$B was bound.",
+          "for 1st parameter b",
+          "at LineNumbersTest$2.configure");
     }
   }
 
@@ -145,10 +142,9 @@ public class LineNumbersTest extends TestCase {
     } catch (CreationException expected) {
       assertContains(
           expected.getMessage(),
-          "1) No implementation for " + B.class.getName() + " was bound.",
-          "for the 1st parameter of " + GeneratingClassLoader.name + ".<init>(Unknown Source)",
-          "at " + LineNumbersTest.class.getName(),
-          getDeclaringSourcePart(getClass()));
+          "No implementation for LineNumbersTest$B was bound.",
+          "for 1st parameter",
+          "at LineNumbersTest$3.configure");
     }
   }
 

@@ -130,7 +130,7 @@ public class InternalFlags {
   }
 
   public static boolean enableExperimentalErrorMessages() {
-    return false;
+    return true;
   }
 
   public static boolean enableColorizeErrorMessages() {
